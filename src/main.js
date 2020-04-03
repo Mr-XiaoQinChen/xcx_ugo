@@ -5,6 +5,9 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
+import request from './utils/request'
+Vue.use(request)
+
 const app = new Vue({
   ...App
 })
