@@ -19,7 +19,7 @@
         <navigator url="/pages/list/index">锤子</navigator>
       </div>
       <!-- 结果 -->
-      <scroll-view scroll-y class="result">
+      <scroll-view scroll-y class="result" v-if="list.length">
         <navigator url="/pages/goods/index" 
         v-for="item in list"
         :key="item.goods_id"
