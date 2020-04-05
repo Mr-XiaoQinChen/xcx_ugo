@@ -3,7 +3,13 @@
   <div class="search" :class="{focused: focused}">
     <!-- 搜索框 -->
     <div class="input-wrap" @click="goSearch">
-      <input type="text" :placeholder="placeholder" @input="input" v-model="words">
+      <input 
+      type="text" 
+      :placeholder="placeholder" 
+      @input="input" 
+      v-model="words"
+      @confirm="goPage"
+      >
       <span class="cancle" @click.stop="cancleSearch">取消</span>
     </div>
     <!-- 搜索结果 -->
@@ -99,7 +105,13 @@
           });
           // console.log(res)
           this.list = res;
-      
+      },
+      // 点击回车事件
+      goPage() {
+          // 调用 API 实现页面的跳转,带着刚才搜索的参数
+          uni.navigateTo({
+              url: '/pages/list/index?query=' + this.words
+          });
       }
     }
   }
