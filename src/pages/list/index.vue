@@ -55,7 +55,9 @@
             // 显示哪一页
             pagenum:this.pagenum,
             // 一页显示多少条数据
-            pagesize:5
+            pagesize:5,
+            // 标识请求的状态
+            flag:"请求结束",
           }
         })
         // console.log(res)
@@ -64,14 +66,20 @@
         this.list = this.list.concat(res.goods)
       },
       // 区域滚动，触发事件
-      pageAgain() {
+      async pageAgain() {
+        if(this.flag == '请求开始') {
+          return;
+        }
+        // 当页面触底的时候，改变
+        this.flag = '请求开始'
         // 问题：需要调用this.getList() 需要传递参数
         // 在本函数中是拿不到，传递过来的 query 参数的
         // 解决：onLoad里面，传入的参数，保存在data中
 
         // 请求下一页加1
         this.pagenum++;
-        this.getList(this.query)
+        await this.getList(this.query)
+        this.flag = '请求结束'
       }
     },
     // 初始化 
