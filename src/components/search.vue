@@ -63,7 +63,9 @@
         // 搜索框默认为空
         words: '',
         // 用于接受搜索的值
-        list:[]
+        list:[],
+        // 读取本地数据
+        history:uni.getStorageSync("history")||[]
       }
     },
     methods: {
@@ -108,7 +110,14 @@
       },
       // 点击回车事件
       goPage() {
-          // 调用 API 实现页面的跳转,带着刚才搜索的参数
+          // 1.把输入的数据进行存储
+          this.history.push(this.words)
+          // 2.存储的数据，重复去重
+          this.history = [...new Set(this.history)] 
+          // 3.存入本地存储
+          uni.setStorageSync("history",this.history)
+
+        // 调用 API 实现页面的跳转,带着刚才搜索的参数
           uni.navigateTo({
               url: '/pages/list/index?query=' + this.words
           });
