@@ -16,13 +16,13 @@
     <div class="content">
       <div class="title">搜索历史<span class="clear"></span></div>
       <div class="history">
-        <navigator url="/pages/list/index">小米</navigator>
-        <navigator url="/pages/list/index">智能电视</navigator>
+        <navigator url="/pages/list/index" v-for="(item,index) in history" :key="index">{{item}}</navigator>
+        <!-- <navigator url="/pages/list/index">智能电视</navigator>
         <navigator url="/pages/list/index">小米空气净化器</navigator>
         <navigator url="/pages/list/index">西门子洗碗机</navigator>
         <navigator url="/pages/list/index">华为手机</navigator>
         <navigator url="/pages/list/index">苹果</navigator>
-        <navigator url="/pages/list/index">锤子</navigator>
+        <navigator url="/pages/list/index">锤子</navigator> -->
       </div>
       <!-- 结果 -->
       <scroll-view scroll-y class="result" v-if="list.length">
