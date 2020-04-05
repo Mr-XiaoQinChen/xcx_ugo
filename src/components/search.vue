@@ -14,7 +14,10 @@
     </div>
     <!-- 搜索结果 -->
     <div class="content">
-      <div class="title">搜索历史<span class="clear"></span></div>
+      <div class="title">搜索历史
+        <span class="clear" @click="clear">
+        </span>
+      </div>
       <div class="history">
         <navigator 
         :url="'/pages/list/index?query='+item" 
@@ -127,6 +130,13 @@
           uni.navigateTo({
               url: '/pages/list/index?query=' + this.words
           });
+      },
+      // 清楚历史数据
+      clear() {
+        // 1.本地数据删除
+        uni.removeStorageSync('history')
+        // 2.当前初始化数据删除
+        this.history = []
       }
     }
   }
