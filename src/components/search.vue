@@ -16,7 +16,13 @@
     <div class="content">
       <div class="title">搜索历史<span class="clear"></span></div>
       <div class="history">
-        <navigator url="/pages/list/index" v-for="(item,index) in history" :key="index">{{item}}</navigator>
+        <navigator 
+        :url="'/pages/list/index?query='+item" 
+        v-for="(item,index) in history" 
+        :key="index"
+        >
+        {{item}}
+        </navigator>
         <!-- <navigator url="/pages/list/index">智能电视</navigator>
         <navigator url="/pages/list/index">小米空气净化器</navigator>
         <navigator url="/pages/list/index">西门子洗碗机</navigator>
