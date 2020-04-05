@@ -3,7 +3,7 @@
   <div class="search" :class="{focused: focused}">
     <!-- 搜索框 -->
     <div class="input-wrap" @click="goSearch">
-      <input type="text" :placeholder="placeholder">
+      <input type="text" :placeholder="placeholder" @input="input" v-model="words">
       <span class="cancle" @click.stop="cancleSearch">取消</span>
     </div>
     <!-- 搜索结果 -->
@@ -20,6 +20,12 @@
       </div>
       <!-- 结果 -->
       <scroll-view scroll-y class="result">
+        <navigator url="/pages/goods/index" 
+        v-for="item in list"
+        :key="item.goods_id"
+        >{{item.goods_name}}
+        </navigator>
+        <!-- <navigator url="/pages/goods/index">小米</navigator>
         <navigator url="/pages/goods/index">小米</navigator>
         <navigator url="/pages/goods/index">小米</navigator>
         <navigator url="/pages/goods/index">小米</navigator>
@@ -35,9 +41,7 @@
         <navigator url="/pages/goods/index">小米</navigator>
         <navigator url="/pages/goods/index">小米</navigator>
         <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
-        <navigator url="/pages/goods/index">小米</navigator>
+        <navigator url="/pages/goods/index">小米</navigator> -->
       </scroll-view>
     </div>
   </div>
@@ -48,10 +52,15 @@
     data () {
       return {
         focused: false,
-        placeholder: ''
+        placeholder: '',
+        // 搜索框默认为空
+        words: '',
+        // 用于接受搜索的值
+        list:[]
       }
     },
     methods: {
+      // 聚焦事件
       goSearch (ev) {
         this.focused = true;
         this.placeholder = '请输入您要搜索的内容';
@@ -64,6 +73,7 @@
         // 隐藏tabBar
         uni.hideTabBar();
       },
+      // 取消
       cancleSearch () {
         this.focused = false;
         this.placeholder = '';
@@ -75,6 +85,20 @@
 
         // 显示tabBar
         uni.showTabBar();
+      },
+      // 输入内容
+      async input() {
+        // console.log(this.words)
+        // 搜索中
+          const res =await this.request({
+              url:"/api/public/v1/goods/qsearch",
+              data:{
+                  query:this.words
+              }
+          });
+          // console.log(res)
+          this.list = res;
+      
       }
     }
   }

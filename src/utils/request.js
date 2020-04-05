@@ -5,14 +5,15 @@ export default function(Vue) {
 // 这样的话vue实例对象上就能访问这个函数了
   const baseUrl = 'https://api-ugo-web.itheima.net';
   Vue.prototype.request = async function(opts) {
-    const { url } = opts
+    const { url,data } = opts
     // 添加loading 效果
     uni.showLoading({
       title: "加载中"
     });
 
     const [err,res] = await uni.request({
-      url:baseUrl + url
+      url:baseUrl + url,
+      data
     })
     // 请求完成的时候,取消loading效果
     uni.hideLoading();
