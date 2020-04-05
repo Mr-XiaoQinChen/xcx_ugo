@@ -7,7 +7,9 @@
       <text>价格</text>
     </view>
     <!-- 商品列表 -->
-    <scroll-view class="goods" scroll-y>
+    <!-- 区域滚动，绑定事件，这里不是页面滚动（不是配置） -->
+    <!-- 页面触底的时候，再次发送请求 -->
+    <scroll-view class="goods" scroll-y @scrolltolower="pageAgain">
 
       <view class="item" @click="goDetail" v-for="item in list" :key="item.goods_id">
         <!-- 商品图片 -->
@@ -29,7 +31,12 @@
   export default {
     data () {
       return {
-        list: []
+        // 传递过来的字段
+        query:"",
+        // 请求来的数据
+        list: [],
+        // 初始化请求页面
+        pagenum:1
       }
     },
     methods: {
@@ -46,17 +53,30 @@
             // 传过来的参数
             query,
             // 显示哪一页
-            pagenum:1,
+            pagenum:this.pagenum,
             // 一页显示多少条数据
             pagesize:5
           }
         })
         // console.log(res)
-        this.list = res.goods;
+        // this.list = res.goods;
+        // 这里要优化，对下面新请求的数据进行拼接一起
+        this.list = this.list.concat(res.goods)
+      },
+      // 区域滚动，触发事件
+      pageAgain() {
+        // 问题：需要调用this.getList() 需要传递参数
+        // 在本函数中是拿不到，传递过来的 query 参数的
+        // 解决：onLoad里面，传入的参数，保存在data中
+
+        // 请求下一页加1
+        this.pagenum++;
+        this.getList(this.query)
       }
     },
     // 初始化 
     onLoad(opt) {
+      this.query = opt.query;
       // 1.拿数据
       // console.log(opt.query)
       // 2.请求
